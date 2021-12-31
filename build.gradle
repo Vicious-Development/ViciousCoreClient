@@ -4,14 +4,6 @@ buildscript {
             url = 'https://files.minecraftforge.net/maven' }
         maven {url = 'https://plugins.gradle.org/m2' }
         maven {
-            name 'CB Maven'
-            url "http://chickenbones.net/maven/"
-        }
-        maven {
-            name = "CoFH Maven"
-            url = "http://maven.covers1624.net"
-        }
-        maven {
             url = "https://www.cursemaven.com"
         }
         maven {
@@ -41,7 +33,7 @@ apply plugin: 'org.spongepowered.mixin'
 String mcver = "1.12.2"
 String forgever = "14.23.5.2847"
 String archivesBaseName = 'viciouscoreclient'
-String projectver = '1.0.2'
+String projectver = '1.0.3'
 String organization = 'vicious'
 String gitlink = "github.com/Vicious-MCModding/ViciousCoreClient"
 
@@ -81,7 +73,7 @@ repositories {
 }
 
 dependencies {
-    compile "com.vicious:viciouscore:1.0.2"
+    compile "com.vicious:viciouscore:1.0.3"
     compileOnly (fileTree(dir: 'lib', include: ['*.jar']))
 }
 
@@ -127,17 +119,30 @@ processResources {
 
 // Example configuration to allow publishing using the maven-publish task
 // This is the preferred method to reobfuscate your jar file
-jar.finalizedBy('reobfJar') 
+//jar.finalizedBy('reobfJar')
 // However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
-//publish.dependsOn('reobfJar')
+publish.dependsOn('deobfJar')
+def manif = {
+}
 reobf {
     shadowJar {
         mappingType = 'SEARGE'
         classpath = sourceSets.main.compileClasspath
     }
 }
-
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+    classifier = 'deobf'
+    manifest manif
+}
+task deobfShadowJar(type: Jar) {
+    dependsOn(shadowJar)
+    from sourceSets.main.output
+    classifier = 'deobf'
+    manifest manif
+}
 publishing {
+
     repositories {
         maven {
             name = "ViciousCoreClient"
