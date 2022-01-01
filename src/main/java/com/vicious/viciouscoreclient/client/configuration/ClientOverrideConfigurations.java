@@ -3,8 +3,10 @@ package com.vicious.viciouscoreclient.client.configuration;
 import net.minecraft.client.model.*;
 import net.minecraft.item.Item;
 
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 public class ClientOverrideConfigurations {
     protected final static Map<Class<?>, int[]> unreadableArrayLengths = new HashMap<>();
@@ -21,6 +23,11 @@ public class ClientOverrideConfigurations {
     }
     public static HeldItemOverrideCFG createWhenHeldOverride(Item in){
         HeldItemOverrideCFG cfg = new HeldItemOverrideCFG(in);
+        heldItemRenderConfigurationsMap.putIfAbsent(in.getRegistryName().toString(), cfg);
+        return cfg;
+    }
+    public static HeldItemOverrideCFG createWhenHeldOverride(Item in, Function<Path,ItemTransformOverrideCFG> cfgConstructor){
+        HeldItemOverrideCFG cfg = new HeldItemOverrideCFG(in,cfgConstructor);
         heldItemRenderConfigurationsMap.putIfAbsent(in.getRegistryName().toString(), cfg);
         return cfg;
     }

@@ -2,14 +2,15 @@ package com.vicious.viciouscoreclient.client.configuration;
 
 import com.vicious.viciouscore.common.configuration.IOverrideConfiguration;
 import com.vicious.viciouscore.common.util.file.Directories;
-import com.vicious.viciouscoreclient.client.util.file.ClientDirectories;
 import com.vicious.viciouscore.common.util.file.FileUtil;
-import net.minecraft.client.model.*;
+import com.vicious.viciouscoreclient.client.util.file.ClientDirectories;
+import net.minecraft.client.model.ModelBase;
 import net.minecraft.item.Item;
 
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  * Powerful class designed to allow us to save and load models and render override settings while in game. This means we can edit the rendering of entities and such
@@ -25,6 +26,12 @@ public class HeldItemOverrideCFG implements IOverrideConfiguration {
         PATH = Directories.directorize(ClientDirectories.itemRenderOverridesDirectory.toAbsolutePath().toString(), itemName);
         FileUtil.createDirectoryIfDNE(PATH);
         ITEM = new ItemTransformOverrideCFG(Directories.directorize(PATH.toAbsolutePath().toString(), itemName + ".json"));
+    }
+    public HeldItemOverrideCFG(Item in, Function<Path,ItemTransformOverrideCFG> cfgConstructor) {
+        String itemName = in.getRegistryName().toString().replaceAll(":","-");
+        PATH = Directories.directorize(ClientDirectories.itemRenderOverridesDirectory.toAbsolutePath().toString(), itemName);
+        FileUtil.createDirectoryIfDNE(PATH);
+        ITEM = cfgConstructor.apply(Directories.directorize(PATH.toAbsolutePath().toString(), itemName + ".json"));
     }
 
     public static void saveAll() {

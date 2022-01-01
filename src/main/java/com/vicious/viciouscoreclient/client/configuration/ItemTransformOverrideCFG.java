@@ -2,6 +2,7 @@ package com.vicious.viciouscoreclient.client.configuration;
 
 import com.vicious.viciouslib.configuration.ConfigurationValue;
 import com.vicious.viciouslib.configuration.JSONConfig;
+import com.vicious.viciouslib.database.tracking.values.TrackableValue;
 
 import java.nio.file.Path;
 
@@ -69,5 +70,8 @@ public class ItemTransformOverrideCFG extends JSONConfig {
 
     public ItemTransformOverrideCFG(Path f) {
         super(f);
+    }
+    public ItemTransformOverrideCFG(Path f, TrackableValue<?>... extraDat) {
+        super(f,extraDat);
     }
 }

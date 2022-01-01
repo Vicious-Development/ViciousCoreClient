@@ -26,7 +26,7 @@ public class ViciousCoreClient
 {
     public static final String MODID = "viciouscoreclient";
     public static final String NAME = "Vicious Core Client";
-    public static final String VERSION = "1.0.3";
+    public static final String VERSION = "1.1.0";
     public static VCoreClientConfig CFG;
     public static ViciousCoreClient instance;
     static {
@@ -46,7 +46,7 @@ public class ViciousCoreClient
                     "\n We recommend deleting the mod from your server entirely." +
                     "\n If you are a pack developer producing a server pack, make server owner's lives easier by removing client sided mods." +
                     "\n Thanks for reading." +
-                    "\n (I didn't make this mod clientsided only in order to make this PSA)");
+                    "\n (I didn't make this mod clientsided only in order to make this PSA) >:)");
             return;
         }
         instance = this;
