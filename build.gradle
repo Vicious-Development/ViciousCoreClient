@@ -33,7 +33,7 @@ apply plugin: 'org.spongepowered.mixin'
 String mcver = "1.12.2"
 String forgever = "14.23.5.2847"
 String archivesBaseName = 'viciouscoreclient'
-String projectver = '1.1.0'
+String projectver = '1.1.1'
 String organization = 'vicious'
 String gitlink = "github.com/Vicious-MCModding/ViciousCoreClient"
 
@@ -73,7 +73,7 @@ repositories {
 }
 
 dependencies {
-    compile "com.vicious:viciouscore:1.0.8"
+    compile "com.vicious:viciouscore:1.0.9"
     compileOnly (fileTree(dir: 'lib', include: ['*.jar']))
 }
 
