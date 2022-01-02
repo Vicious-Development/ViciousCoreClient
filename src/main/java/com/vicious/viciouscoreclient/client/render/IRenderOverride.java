@@ -32,6 +32,7 @@ public interface IRenderOverride extends ICCModelUser {
     void registerRenderers();
     @SideOnly(Side.CLIENT)
     default void renderEntity(Render<?> renderer, EntityLivingBase e) {
+        e.isSwingInProgress = false;
         Item item = e.getHeldItemMainhand().getItem();
         //Changes how the entity renders while holding the item.
         HeldItemOverrideCFG overridecfg = ((IRenderOverride)item).getConfiguration();

@@ -1,7 +1,7 @@
 [
 {
-  "modid": "viciouscore",
-  "name": "Vicious Core",
+  "modid": "${modid}",
+  "name": "Vicious Core Client",
   "description": "A mod made specifically for the creation of epic battles.",
   "version": "${version}",
   "mcversion": "${mcversion}",
