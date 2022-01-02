@@ -1,6 +1,6 @@
 # ViciousCoreClient
 Vicious Core is a powerful mod designed to eliminate the tediousness of many processes in modding Minecraft while keeping everything as server efficient as possible. 
-##This is the Client module for ViciousCore
+## This is the Client module for ViciousCore
 
 For Common Features, see [ViciousCore](https://github.com/Vicious-MCModding/ViciousCore). which is not dependent on CodeChickenLib.
 ## Client Features:
