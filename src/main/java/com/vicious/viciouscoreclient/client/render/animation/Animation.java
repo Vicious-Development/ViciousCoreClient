@@ -3,7 +3,6 @@ package com.vicious.viciouscoreclient.client.render.animation;
 import codechicken.lib.render.CCModel;
 import codechicken.lib.render.CCRenderState;
 import codechicken.lib.vec.Matrix4;
-import com.vicious.viciouscoreclient.client.render.ViciousRenderManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -27,44 +26,22 @@ public class Animation  {
         return new Animation(0);
     }
 
-    public CCModel runModelFrame(CCModel model, double x, double y, double z, float yaw, float partialticks){
+    public CCModel runModelFrame(CCModel model, int frame){
         //Empty animation, this is usually when getAnimation is not overriden.
         if(frames.length == 0) return model;
-        int modularFrame = (int) (calcTotalTicks(partialticks))%frames.length;
-        if(frames[modularFrame] == null) return model;
+        if(frames[frame] == null) return model;
         else{
-            return ((CCModelFrameRunner)frames[modularFrame]).run(model,x,y,z,yaw,calcTotalTicks(partialticks));
+            return ((CCModelFrameRunner)frames[frame]).run(model);
         }
     }
-    public void runModelFrameAndRender(CCModel model, double x, double y, double z, float yaw, float partialticks, CCRenderState rs, Matrix4 mat){
-        runModelFrame(model,x,y,z,yaw,partialticks).render(rs,mat);
+    public void runModelFrameAndRender(CCModel model, int frame, CCRenderState rs, Matrix4 mat){
+        runModelFrame(model,frame).render(rs,mat);
     }
 
-    /**
-     * Runs GLStateFrameRunners, these just modify the GLState.
-     * @param partialTicks
-     */
-    public void runGLStateFrame(float partialTicks){
-        int modularFrame = ((int)calcTotalTicks(partialTicks))%frames.length;
-        if(frames[modularFrame] == null) return;
-        else{
-            ((GLStateFrameRunner)frames[modularFrame]).run(calcTotalTicks(partialTicks));
-        }
-    }
     public AnimationFrameRunner addFrame(int frame, AnimationFrameRunner in){
         frames[frame] = in;
         return in;
     }
-
-    //Assumes that the rotation is a constant speed. Useful for objects that spin constantly.
-    public static float getRotationFromTicks(float partialTicks, float factor){
-        return calcTotalTicks(partialTicks)*factor;
-    }
-
-    public static float calcTotalTicks(float partialTicks){
-        return ViciousRenderManager.tickTimeElasped + partialTicks;
-    }
-
     public void addFrameInRange(int start, int end, AnimationFrameRunner frame) {
         for (int i = start; i < end; i++) {
             frames[i]=frame;

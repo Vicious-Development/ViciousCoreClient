@@ -51,22 +51,22 @@ public class RenderGenericHumanoidEntity<T extends EntityLiving> extends RenderE
         CCRenderState rs = startAndBind(ResourceCache.TESTLIMBSPRITELOCATION);
         setLighting(ViciousRenderManager.getLightingBrightness(entity.getPosition()));
         //Render Legs
-        getLegAnimation().runModelFrameAndRender(leg,x,y,z,yaw,partialticks,rs,mat);
-        getLegAnimation().runModelFrameAndRender(leg.apply(new Translation(1,0,0)),x,y,z,yaw,partialticks,rs,mat);
+        getLegAnimation().runModelFrameAndRender(leg,0,rs,mat);
+        getLegAnimation().runModelFrameAndRender(leg.apply(new Translation(1,0,0)),0,rs,mat);
 
         //Render arms
-        getArmAnimation().runModelFrameAndRender(arm,x,y,z,yaw,partialticks,rs,mat);
-        getArmAnimation().runModelFrameAndRender(arm.apply(new Translation(3,0,0)),x,y,z,yaw,partialticks,rs,mat);
+        getArmAnimation().runModelFrameAndRender(arm,0,rs,mat);
+        getArmAnimation().runModelFrameAndRender(arm.apply(new Translation(3,0,0)),0,rs,mat);
         rs.draw();
 
         //Render Body
         rs = startAndBind(ResourceCache.TESTBODYSPRITELOCATION);
-        getBodyAnimation().runModelFrameAndRender(body,x,y,z,yaw,partialticks,rs,mat);
+        getBodyAnimation().runModelFrameAndRender(body,0,rs,mat);
         rs.draw();
 
         //Render Head
         rs = startAndBind(ResourceCache.TESTHEADSPRITELOCATION);
-        getHeadAnimation().runModelFrameAndRender(head,x,y,z,yaw,partialticks,rs,mat);
+        getHeadAnimation().runModelFrameAndRender(head,0,rs,mat);
         rs.draw();
 
     }

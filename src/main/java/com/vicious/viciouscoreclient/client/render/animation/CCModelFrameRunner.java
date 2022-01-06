@@ -13,21 +13,9 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public abstract class CCModelFrameRunner extends AnimationFrameRunner {
-    private CCModelFrameRunner prevFrame;
     public CCModelFrameRunner(){}
-    public CCModelFrameRunner setPrevious(CCModelFrameRunner previous){
-        prevFrame=previous;
-        return this;
-    }
-    public CCModelFrameRunner(CCModelFrameRunner previous){
-        prevFrame=previous;
-    }
-    public abstract CCModel run(CCModel model, double x, double y, double z, float yaw, float partialticks);
+    public abstract CCModel run(CCModel model);
     //Applies models changes made in the previous frame.
-    protected CCModel applyPreviousFrame(CCModel model, double x, double y, double z, float yaw, float partialticks){
-        if(prevFrame == null) return model;
-        return prevFrame.run(model,x,y,z,yaw,partialticks-1);
-    }
 
     //Base level animations. Nothing really special, useful for avoiding repeat code.
 
@@ -41,23 +29,13 @@ public abstract class CCModelFrameRunner extends AnimationFrameRunner {
             this.rxy =y;
             this.rxz =z;
         }
-        public Rotator(Supplier<Double> rotationx, Supplier<Double> rotationy, Supplier<Double> rotationz, Supplier<Double> x, Supplier<Double> y, Supplier<Double> z, CCModelFrameRunner previous){
-            super(previous);
-            rx=rotationx;
-            ry=rotationy;
-            rz=rotationz;
-            this.rxf =x;
-            this.rxy =y;
-            this.rxz =z;
-        }
         @Override
-        public CCModel run(CCModel model, double xin, double yin, double zin, float yaw, float totalTicks) {
-            model = applyPreviousFrame(model,xin,yin,zin,yaw,totalTicks);
+        public CCModel run(CCModel model) {
             if(!willRotate()) return model;
             model = model.copy();
-            if(rxf != null) model.apply(new Rotation(totalTicks*rx.get(), rxf.get(),0,0));
-            if(rxy != null) model.apply(new Rotation(totalTicks*ry.get(), 0, rxy.get(),0));
-            if(rxz != null) model.apply(new Rotation(totalTicks*rz.get(), 0,0, rxz.get()));
+            if(rxf != null) model.apply(new Rotation(rx.get(), rxf.get(),0,0));
+            if(rxy != null) model.apply(new Rotation(ry.get(), 0, rxy.get(),0));
+            if(rxz != null) model.apply(new Rotation(rz.get(), 0,0, rxz.get()));
             return model;
         }
         public boolean willRotate(){
@@ -71,20 +49,13 @@ public abstract class CCModelFrameRunner extends AnimationFrameRunner {
             ty=translationy;
             tz=translationz;
         }
-        public Translator(Supplier<Double> translationx, Supplier<Double> translationy, Supplier<Double> translationz, CCModelFrameRunner previousFrame) {
-            super(previousFrame);
-            tx=translationx;
-            ty=translationy;
-            tz=translationz;
-        }
         @Override
-        public CCModel run(CCModel model, double xin, double yin, double zin, float yaw, float totalTicks) {
-            model = applyPreviousFrame(model,xin,yin,zin,yaw,totalTicks);
+        public CCModel run(CCModel model) {
             if(!willTranslate()) return model;
             model = model.copy();
-            if(tx != null) model.apply(new Translation(totalTicks*tx.get(),0,0));
-            if(ty != null) model.apply(new Translation(0,totalTicks*ty.get(),0));
-            if(tz != null) model.apply(new Translation(0,0,totalTicks*tz.get()));
+            if(tx != null) model.apply(new Translation(tx.get(),0,0));
+            if(ty != null) model.apply(new Translation(0,ty.get(),0));
+            if(tz != null) model.apply(new Translation(0,0,tz.get()));
             return model;
         }
         public boolean willTranslate(){
@@ -98,9 +69,9 @@ public abstract class CCModelFrameRunner extends AnimationFrameRunner {
             this.frames.addAll(Arrays.asList(frames));
         }
         @Override
-        public CCModel run(CCModel model, double x, double y, double z, float yaw, float partialticks) {
+        public CCModel run(CCModel model) {
             for (CCModelFrameRunner frame : frames) {
-                model = frame.run(model,x,y,z,yaw,partialticks);
+                model = frame.run(model);
             }
             return model;
         }

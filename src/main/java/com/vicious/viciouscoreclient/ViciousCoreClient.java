@@ -32,6 +32,7 @@ public class ViciousCoreClient
     static {
         ClientDirectories.initializeConfigDependents();
         CFG = VCoreClientConfig.getInstance();
+
     }
 
     public static Logger logger;
