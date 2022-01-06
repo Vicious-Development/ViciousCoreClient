@@ -1,7 +1,6 @@
 package com.vicious.viciouscoreclient.client;
 
 import com.vicious.viciouscore.common.util.resources.GameResourceHelper;
-import com.vicious.viciouscoreclient.client.asm.VCASMT;
 import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.spongepowered.asm.mixin.Mixins;
@@ -19,7 +18,7 @@ public class ViciousCoreClientLoadingPlugin implements IFMLLoadingPlugin
     @Override
     public String[] getASMTransformerClass()
     {
-        return new String[]{VCASMT.class.getName()};
+        return new String[0];
     }
     @Override
     public String getModContainerClass()

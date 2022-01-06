@@ -1,7 +1,6 @@
 package com.vicious.viciouscoreclient.client.configuration;
 
 import com.vicious.viciouscore.common.configuration.IOverrideConfiguration;
-import com.vicious.viciouscore.common.util.file.Directories;
 import com.vicious.viciouscore.common.util.file.FileUtil;
 import com.vicious.viciouscoreclient.client.util.file.ClientDirectories;
 import net.minecraft.client.model.ModelBase;
@@ -23,15 +22,15 @@ public class HeldItemOverrideCFG implements IOverrideConfiguration {
     private final Map<Class<? extends ModelBase>, EntityModelOverrideCFG<?>> MOBMAP = new HashMap<>();
     public HeldItemOverrideCFG(Item in) {
         String itemName = in.getRegistryName().toString().replaceAll(":","-");
-        PATH = Directories.directorize(ClientDirectories.itemRenderOverridesDirectory.toAbsolutePath().toString(), itemName);
+        PATH = ClientDirectories.directorize(ClientDirectories.itemRenderOverridesDirectory.toAbsolutePath().toString(), itemName);
         FileUtil.createDirectoryIfDNE(PATH);
-        ITEM = new ItemTransformOverrideCFG(Directories.directorize(PATH.toAbsolutePath().toString(), itemName + ".json"));
+        ITEM = new ItemTransformOverrideCFG(ClientDirectories.directorize(PATH.toAbsolutePath().toString(), itemName + ".json"));
     }
     public HeldItemOverrideCFG(Item in, Function<Path,ItemTransformOverrideCFG> cfgConstructor) {
         String itemName = in.getRegistryName().toString().replaceAll(":","-");
-        PATH = Directories.directorize(ClientDirectories.itemRenderOverridesDirectory.toAbsolutePath().toString(), itemName);
+        PATH = ClientDirectories.directorize(ClientDirectories.itemRenderOverridesDirectory.toAbsolutePath().toString(), itemName);
         FileUtil.createDirectoryIfDNE(PATH);
-        ITEM = cfgConstructor.apply(Directories.directorize(PATH.toAbsolutePath().toString(), itemName + ".json"));
+        ITEM = cfgConstructor.apply(ClientDirectories.directorize(PATH.toAbsolutePath().toString(), itemName + ".json"));
     }
 
     public static void saveAll() {
@@ -64,11 +63,11 @@ public class HeldItemOverrideCFG implements IOverrideConfiguration {
 
     public <T extends ModelBase> HeldItemOverrideCFG addEntityModelOverrider(Class<T> in){
         if(!ClientOverrideConfigurations.unreadableArrayLengths.containsKey(in)) {
-            EntityModelOverrideCFG<T> modelconfigurator = new EntityModelOverrideCFG<T>(Directories.directorize(PATH.toAbsolutePath().toString(), in.getCanonicalName().replaceAll("\\.", "-")), in);
+            EntityModelOverrideCFG<T> modelconfigurator = new EntityModelOverrideCFG<T>(ClientDirectories.directorize(PATH.toAbsolutePath().toString(), in.getCanonicalName().replaceAll("\\.", "-")), in);
             MOBMAP.putIfAbsent(in, modelconfigurator);
         }
         else{
-            EntityModelOverrideCFG<T> modelconfigurator = new EntityModelOverrideCFG<T>(Directories.directorize(PATH.toAbsolutePath().toString(), in.getCanonicalName().replaceAll("\\.", "-")), in, ClientOverrideConfigurations.unreadableArrayLengths.get(in));
+            EntityModelOverrideCFG<T> modelconfigurator = new EntityModelOverrideCFG<T>(ClientDirectories.directorize(PATH.toAbsolutePath().toString(), in.getCanonicalName().replaceAll("\\.", "-")), in, ClientOverrideConfigurations.unreadableArrayLengths.get(in));
             MOBMAP.putIfAbsent(in, modelconfigurator);
         }
         return this;

@@ -34,7 +34,7 @@ public abstract class RenderModeledProjectile<T extends GenericModeledProjectile
         Matrix4 mat = getMatrix(x,y,z);
 
         //Apply animation modifications and render.
-        getAnimation().runModelFrameAndRender(getModel(),x,y,z,yaw,partialticks,rs,mat);
+        getAnimation().runModelFrameAndRender(getModel(),0,rs,mat);
 
         //Do this otherwise the client will crash. Crashing is bad.
         rs.draw();
