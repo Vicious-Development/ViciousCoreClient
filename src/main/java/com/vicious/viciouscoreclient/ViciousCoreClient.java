@@ -26,7 +26,7 @@ public class ViciousCoreClient
 {
     public static final String MODID = "viciouscoreclient";
     public static final String NAME = "Vicious Core Client";
-    public static final String VERSION = "1.1.1";
+    public static final String VERSION = "1.1.4";
     public static VCoreClientConfig CFG;
     public static ViciousCoreClient instance;
     static {
